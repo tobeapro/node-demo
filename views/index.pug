@@ -1,6 +1,12 @@
-doctype html
-html
-    head
-        title index
-    body
-        p(style="color:red") index
+extends ../layout
+block content
+    .container
+        .row
+            each item in list
+                .col-md-2
+                    .thumnbnail 
+                        a(href="/music/#{item.id}")
+                            img(src="#{item.img}",alt="#{item.name}")
+                        .caption
+                            h3 #{title}
+                            p: a.btn.btn-primary(href="/music/#{item.id}",role="button")
