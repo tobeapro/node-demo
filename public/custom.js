@@ -3,8 +3,10 @@ new Vue({
     el:'#app',
     data(){
         return {
+            waiting:true,
             lyric:[],
-            playStatus:false
+            playStatus:false,
+            currentTime:0
         }
     },
     computed:{
@@ -31,11 +33,16 @@ new Vue({
                 success:function(res){
                     var lyric=res.lyric
                     _this.lyric=_this.parseLyric(_this.decode(lyric))
+                    _this.waiting=false
                 },
                 error:function(err){
+                    _this.waiting=false
                     console.log(err)
                 }
             })
+        },
+        musicUpdate(){
+            this.currentTime=this.audio.currentTime
         },
         decode(input) {
             var  _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -87,7 +94,7 @@ new Vue({
         },
         parseLyric(lrc) {
             let lyrics = lrc.split("\n");
-            let lrcObj = {};
+            let lrcAry = [];
             for(let i=0;i<lyrics.length;i++){
                 let lyric = decodeURIComponent(lyrics[i]);
                 let timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
@@ -99,10 +106,10 @@ new Vue({
                     let min = Number(String(t.match(/\[\d*/i)).slice(1)),
                         sec = Number(String(t.match(/\:\d*/i)).slice(1));
                     let time = min * 60 + sec;
-                    lrcObj[time] = clause;
+                    lrcAry.push({"time":time,"lrc":clause})
                 }
             }
-            return lrcObj;
+            return lrcAry;
         }
     }
 })

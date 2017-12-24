@@ -4,6 +4,33 @@
 .fr{
     float:right;
 }
+.loading:before{
+    content:'';
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(255,255,255,.6);
+}
+@keyframes loading{
+    from{transform:rotate(0deg) translate(-50%,-50%)}
+    to{transform:rotate(360deg) translate(-50%,-50%)}
+}
+.loading:after{
+    content:'';
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    transform-origin: 0 0;
+    animation:loading 1.2s infinite linear;
+    width:40px;
+    height:40px;
+    border:2px solid rgb(5, 125, 223);
+    border-radius: 50%;
+    border-bottom-color: transparent;
+}
 .song-item{
     padding:12px 0;
 }
@@ -13,4 +40,10 @@
 .song-detail p{
     font-size:18px;
     line-height:60px;
+}
+.song-lyric ul li{
+    transition:all .6s ease;
+}
+.playMark{
+    color:#05dc52;
 }
