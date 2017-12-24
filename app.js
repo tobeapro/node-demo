@@ -1,6 +1,16 @@
 const express=require('express')
+const mongoose=require("mongoose")
 const bodyParser=require("body-parser")
+const model=require("./servers/index")
 const app=express()
+mongoose.connect('mongodb://localhost/player')
+var db=mongoose.connection
+db.on('error',()=>{
+    console.log("database connect error")
+})
+db.once('open',()=>{
+    console.log("database connect success")
+})
 // 设置页面文件夹
 app.set('views',__dirname+'/views')
 // 设置引擎
@@ -10,58 +20,25 @@ app.use(bodyParser.urlencoded({extented:true}))
 app.use('/static', express.static(__dirname + '/public'))
 // 匹配路由
 app.get('/',(req,res)=>{
-    res.render("index",{
-        title:'首页',
-        list:[{
-                "id": 466722,
-                "name":"夜的第七章",
-                "singer":"周杰伦",
-                "img":"https://y.gtimg.cn/music/photo_new/T002R150x150M000002jLGWe16Tf1H.jpg?max_age=2592000",
-                "url":"http://ws.stream.qqmusic.qq.com/466722.m4a?fromtag=46",
-                "lyric":""
-                },
-                {
-                "id":102066257,
-                "name":"听妈妈的话",
-                "singer":"周杰伦",
-                "img":"https://y.gtimg.cn/music/photo_new/T002R150x150M000002jLGWe16Tf1H.jpg?max_age=2592000",
-                "url":"http://ws.stream.qqmusic.qq.com/102066257.m4a?fromtag=46",
-                "lyric":""
-                },
-                {
-                "id":102698215,
-                "name":"千里之外",
-                "singer":"周杰伦",
-                "img":"https://y.gtimg.cn/music/photo_new/T002R150x150M000002jLGWe16Tf1H.jpg?max_age=2592000",
-                "url":"http://ws.stream.qqmusic.qq.com/102698215.m4a?fromtag=46",
-                "lyric":""
-                },
-                {
-                "id":102066448,
-                "name":"本草纲目",
-                "singer":"周杰伦",
-                "img":"https://y.gtimg.cn/music/photo_new/T002R150x150M000002jLGWe16Tf1H.jpg?max_age=2592000",
-                "url":"http://ws.stream.qqmusic.qq.com/102066448.m4a?fromtag=46",
-                "lyric":""
-                },
-                {
-                "id":102066449,
-                "name":"退后",
-                "singer":"周杰伦",
-                "img":"https://y.gtimg.cn/music/photo_new/T002R150x150M000002jLGWe16Tf1H.jpg?max_age=2592000",
-                "url":"http://ws.stream.qqmusic.qq.com/102066449.m4a?fromtag=46",
-                "lyric":""
-                },
-                {
-                "id":101101739,
-                "name":"红模仿",
-                "singer":"周杰伦",
-                "img":"https://y.gtimg.cn/music/photo_new/T002R150x150M000002jLGWe16Tf1H.jpg?max_age=2592000",
-                "url":"http://ws.stream.qqmusic.qq.com/101101739.m4a?fromtag=46",
-                "lyric":""
-                }]
+    model.getList((err,list)=>{
+        if(err){
+            console.log(err)
+        }
+        res.render('index',{
+          title:'首页-歌曲列表',
+          list:list
+        })
     })
 })
-app.listen(8080,()=>{
-    console.log("listen on localhost:8080")
+app.get("/music/:id",(req,res)=>{
+    let id=req.params.id
+    model.findById(id,(err,music)=>{
+        res.render('detail',{
+            title:'歌曲-'+music.name,
+            music:music
+        })
+    })
+})
+app.listen(3000,()=>{
+    console.log("listen on localhost:3000")
 })
