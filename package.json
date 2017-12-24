@@ -11,10 +11,14 @@
   "author": "lk",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "bootstrap": "^3.3.7",
     "express": "^4.16.2",
     "jquery": "^3.2.1",
-    "pug": "^2.0.0-rc.4"
+    "jsonp": "^0.2.1",
+    "mongoose": "^4.13.7",
+    "pug": "^2.0.0-rc.4",
+    "vue": "^2.5.13"
   }
 }
