@@ -3,10 +3,9 @@ block content
     .container
         .row
             each item in list
-                .col-md-2
-                    .thumnbnail 
-                        a(href="/music/#{item.id}")
-                            img(src="#{item.img}",alt="#{item.name}")
-                        .caption
-                            h3 #{title}
-                            p: a.btn.btn-primary(href="/music/#{item.id}",role="button")
+                .song-item.clearfix                   
+                    a(class="song-img fl",href=`/music/${item.id}`)
+                        img(src=`${item.img}`,alt=`${item.name}`,style="width:100px")
+                    .song-detail.fl
+                        p #{item.name}
+                        a.btn.btn-primary(href=`/music/${item.id}`,role="button") 查看歌曲详情
