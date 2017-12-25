@@ -29,16 +29,32 @@
     animation:loading 1.2s infinite linear;
     width:40px;
     height:40px;
-    border:2px solid rgb(5, 125, 223);
+    border:2px solid #057ddf;
     border-radius: 50%;
     border-bottom-color: transparent;
+}
+[v-cloak]{
+    display:none;
+}
+.index .playProgress{
+    transition:all .6s ease;
+    position:fixed;
+    left:0;
+    height:4px;
+    border-radius:4px;
+    background:#0288f6;
 }
 .index .search-input{
     padding:20px 0;
 }
-.index .music-li{
+.index .search-li {
     display: flex;
-    margin-bottom:20px;
+    margin-bottom:10px;
+}
+.index .serch-none{
+    padding:12px 0;
+    color:#f00707;
+    font-size:14px;
 }
 .index .song-img img{
     display:block;
@@ -48,25 +64,58 @@
     display:flex;
     padding-left:16px;
     flex-direction:column;
+    width:140px;
     font-size:12px;
     font-weight:bold;
 }
-.index .song-info .song-name{
+.index .song-info .song-name,
+.index .song-info .song-singer {
     flex:1;
     line-height:30px;
-}
-.index .song-info .song-singer{
-    flex:1;
-    line-height:30px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
 .index .song-detail{
     align-self:flex-end;
-    padding-left:10px;
 }
 .index .song-detail .song-handle{
     display:block;
     height:20px;
     line-height:20px;
+}
+.index .song-detail .song-handle i{
+    margin-right:6px;
+}
+.index .song-detail .song-handle.playing{
+    animation:playing 1.2s infinite;
+}
+@keyframes playing{
+    from {
+        color: #05dc52
+    }
+    to{
+        color:#f00707
+    }
+}
+.index .music-list{
+    max-height:600px;
+    overflow-y:auto;
+}
+.index .music-li{
+  line-height:26px;
+  font-size:14px;
+  border:1px solid #aaa;
+}
+.index .music-li:not(:last-child){
+    border-bottom:none;
+}
+.index .music-li p{
+    float:left;
+    padding-left:12px;
+    width:160px;
+    font-size:12px;
+    font-weight:bold;
 }
 .detail .song-item{
     padding:12px 0;
@@ -75,10 +124,16 @@
     margin-right:20px;
 }
 .detail .song-detail p{
-    font-size:18px;
+    font-size:16px;
+    text-align:center;
     line-height:60px;
 }
+.detail .song-lyric ul{
+    max-height:600px;
+    overflow-y:auto;
+}
 .detail .song-lyric ul li{
+    line-height:26px;
     transition:all .6s ease;
 }
 .detail .playMark{

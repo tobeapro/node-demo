@@ -31,6 +31,7 @@ new Vue({
                 url:'https://api.darlin.me/music/lyric/'+id,
                 dataType:'jsonp',
                 success:function(res){
+                    console.log(res)
                     var lyric=res.lyric
                     _this.lyric=_this.parseLyric(_this.decode(lyric))
                     _this.waiting=false
