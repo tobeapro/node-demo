@@ -1,13 +1,13 @@
 extends ../public/include/layout
 block content
-    div(:class="waiting?'loading':''",id="app")
+    div(class="detail",:class="waiting?'loading':''",id="app")
         .container
             audio(src=`http://ws.stream.qqmusic.qq.com/${music.id}.m4a?fromtag=46`,ref="audio",@canplay=`canPlay(${music.id})`,@timeupdate="musicUpdate")
             .song-item.clearfix                   
                 img(class="fl",src=`${music.img}`,alt=`${music.name}`,style="width:100px;margin-right:20px")
                 .song-detail.fl
                     p #{music.name}
-                    btn.btn.btn-primary(@click="playMusic") {{playStatus?'暂停':'播放'}}
+                    v-button(type="primary",@click="playMusic") {{playStatus?'暂停':'播放'}}
             .song-lyric(ref="lyric")
                 ul
                     li(:class="currentTime>item.time?'playMark':''",v-for="(item,index) in lyric")  {{item.lrc}} 
