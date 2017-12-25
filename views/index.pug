@@ -1,14 +1,17 @@
 extends ../public/include/layout
 block content
-    div(class="index",:class="waiting?'loading':''",id="app")
+    div(class="index",:class="waiting?'loading':''",id="app",v-cloak)
         .container  
+            audio(ref="audio", @timeupdate="musicUpdate",@ended="musicEnded")
+            .playProgress(:style="{width:playProgress}")
             .search-input          
                 v-input-group(compact)
-                    v-input(type="text",v-model="searchValue",style="width:50%")
-                    v-button(type="primary",icon="search",@click="searchMusic") 搜索
-            ul.music-list
-                h4 歌曲列表
-                li(class="music-li",v-for="(item,index) in musicList")
+                    v-input(type="text",v-model="searchValue",style="width:50%",@keyup.enter.native="searchMusic")
+                    v-button(type="primary",icon="search",@click.key="searchMusic") 搜索
+            h2 搜索列表
+            .serch-none(v-if="searchList.length===0") 当前无搜索结果
+            ul.search-list(v-if="searchList.length>0")
+                li(class="search-li",v-for="(item,index) in searchList",v-key="index")
                     .song-img
                         img(:src="item.img")
                     .song-info
@@ -18,15 +21,14 @@ block content
                         a.song-handle(href="javascript:void(0)",@click="saveMusic(item)")
                             v-icon(type="arrow-down")
                             span 保存
-                        a.song-handle(href="javascript:void(0)",@click="openMusic(item.url)")
+                        a.song-handle(:class="playIndex===index?'playing':''",href="javascript:void(0)",@click="openMusic(item.url,index)")
                             v-icon(type="play-circle") 
                             span 试听
-            each item in list
-                .song-item.clearfix                   
-                    a(class="song-img fl",href=`/music/${item.id}`)
-                        img(src=`${item.img}`,alt=`${item.name}`,style="width:100px")
-                    .song-detail.fl
-                        p #{item.name}
-                        a.btn.btn-primary(href=`/music/${item.id}`,role="button") 查看歌曲详情
+            h2 歌曲列表
+            ul.music-list
+                each item in list
+                    li.music-li.clearfix                   
+                        p #{item.index} #{item.name}
+                        a(href=`/music/${item.id}`,role="button") 详情...
 block script
     script(src="/public/index.js")
