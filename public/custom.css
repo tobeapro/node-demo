@@ -7,6 +7,7 @@
 .loading:before{
     content:'';
     position:fixed;
+    z-index:10;
     top:0;
     left:0;
     right:0;
@@ -20,6 +21,7 @@
 .loading:after{
     content:'';
     position:fixed;
+    z-index:10;
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);
@@ -31,19 +33,54 @@
     border-radius: 50%;
     border-bottom-color: transparent;
 }
-.song-item{
+.index .search-input{
+    padding:20px 0;
+}
+.index .music-li{
+    display: flex;
+    margin-bottom:20px;
+}
+.index .song-img img{
+    display:block;
+    width:60px;
+}
+.index .song-info{
+    display:flex;
+    padding-left:16px;
+    flex-direction:column;
+    font-size:12px;
+    font-weight:bold;
+}
+.index .song-info .song-name{
+    flex:1;
+    line-height:30px;
+}
+.index .song-info .song-singer{
+    flex:1;
+    line-height:30px;
+}
+.index .song-detail{
+    align-self:flex-end;
+    padding-left:10px;
+}
+.index .song-detail .song-handle{
+    display:block;
+    height:20px;
+    line-height:20px;
+}
+.detail .song-item{
     padding:12px 0;
 }
-.song-img{
+.detail .song-img{
     margin-right:20px;
 }
-.song-detail p{
+.detail .song-detail p{
     font-size:18px;
     line-height:60px;
 }
-.song-lyric ul li{
+.detail .song-lyric ul li{
     transition:all .6s ease;
 }
-.playMark{
+.detail .playMark{
     color:#05dc52;
 }

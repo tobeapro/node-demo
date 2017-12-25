@@ -1,7 +1,26 @@
-extends ../layout
+extends ../public/include/layout
 block content
-    .container
-        .row
+    div(class="index",:class="waiting?'loading':''",id="app")
+        .container  
+            .search-input          
+                v-input-group(compact)
+                    v-input(type="text",v-model="searchValue",style="width:50%")
+                    v-button(type="primary",icon="search",@click="searchMusic") 搜索
+            ul.music-list
+                h4 歌曲列表
+                li(class="music-li",v-for="(item,index) in musicList")
+                    .song-img
+                        img(:src="item.img")
+                    .song-info
+                        .song-name 歌名--{{item.name}}
+                        .song-singer 歌手--{{item.singer}}
+                    .song-detail
+                        a.song-handle(href="javascript:void(0)",@click="saveMusic(item)")
+                            v-icon(type="arrow-down")
+                            span 保存
+                        a.song-handle(href="javascript:void(0)",@click="openMusic(item.url)")
+                            v-icon(type="play-circle") 
+                            span 试听
             each item in list
                 .song-item.clearfix                   
                     a(class="song-img fl",href=`/music/${item.id}`)
@@ -9,3 +28,5 @@ block content
                     .song-detail.fl
                         p #{item.name}
                         a.btn.btn-primary(href=`/music/${item.id}`,role="button") 查看歌曲详情
+block script
+    script(src="/public/index.js")

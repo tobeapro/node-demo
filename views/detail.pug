@@ -1,4 +1,4 @@
-extends ../layout
+extends ../public/include/layout
 block content
     div(:class="waiting?'loading':''",id="app")
         .container
@@ -10,6 +10,9 @@ block content
                     btn.btn.btn-primary(@click="playMusic") {{playStatus?'暂停':'播放'}}
             .song-lyric(ref="lyric")
                 ul
-                    li(:class="currentTime>item.time?'playMark':''",v-for="(item,index) in lyric")  {{item.lrc}}
+                    li(:class="currentTime>item.time?'playMark':''",v-for="(item,index) in lyric")  {{item.lrc}} 
+block script              
+    script(src="/public/detail.js")
+
 
 
