@@ -17,7 +17,8 @@ app.set('views',__dirname+'/views')
 app.set('view engine','pug')
 //引用静态资源
 app.use(bodyParser.urlencoded({extented:true}))
-app.use('/static', express.static(__dirname + '/public'))
+app.use('/static', express.static(__dirname + '/node_modules'))
+app.use('/public',express.static(__dirname+'/public'))
 // 匹配路由
 app.get('/',(req,res)=>{
     model.getList((err,list)=>{
@@ -37,6 +38,26 @@ app.get("/music/:id",(req,res)=>{
             title:'歌曲-'+music.name,
             music:music
         })
+    })
+})
+app.post("/music/saveMusic",(req,res)=>{
+    var id=req.body.id
+    model.findById(id,(err,music)=>{
+        if(err){
+            res.send({status:500,text:'保存失败'}).end()
+        }else{
+            if(music){
+                res.send({status:204,text:'已存在'}).end()
+            }else{
+                model.saveMusic(req.body,(err)=>{
+                    if(err){
+                        res.send({status:500,text:'保存失败'}).end()
+                    }else{            
+                        res.send({status:200,text:'保存成功'}).end()
+                    }
+                })
+            }
+        }
     })
 })
 app.listen(3000,()=>{
