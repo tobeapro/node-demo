@@ -7,16 +7,4 @@ var musicSchema=new mongoose.Schema({
     url:String,
     lyric:String
 })
-musicSchema.statics={
-    getList:function(res){
-       return this
-        .find({})
-        .exec(res)
-    },
-    findById:function(id,res){
-        return this
-        .findOne({id:id})
-        .exec(res)
-    }
-}
 module.exports=musicSchema
