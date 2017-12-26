@@ -36,12 +36,12 @@
 [v-cloak]{
     display:none;
 }
-.index .playProgress{
+.playProgress{
     transition:all .6s ease;
     position:fixed;
     left:0;
     height:4px;
-    border-radius:4px;
+    border-radius:2px;
     background:#0288f6;
 }
 .index .search-input{

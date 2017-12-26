@@ -6,7 +6,7 @@ new Vue({
             waiting:true,
             lyric:[],
             playStatus:false,
-            currentTime:0
+            playProgress:0
         }
     },
     computed:{
@@ -25,25 +25,40 @@ new Vue({
             }
         },
         canPlay(id){
-            var _this=this
-            $.ajax({
-                type:'get',
-                url:'https://api.darlin.me/music/lyric/'+id,
-                dataType:'jsonp',
-                success:function(res){
-                    console.log(res)
-                    var lyric=res.lyric
-                    _this.lyric=_this.parseLyric(_this.decode(lyric))
-                    _this.waiting=false
-                },
-                error:function(err){
-                    _this.waiting=false
-                    console.log(err)
-                }
+            this.$http.jsonp('https://api.darlin.me/music/lyric/' + id,{jsonp:'jsonpCallback'})
+            .then(res=>{
+                var lyric=res.body.lyric
+                this.lyric=_this.parseLyric(_this.decode(lyric))
+                this.waiting=false
             })
+            .catch((err)=>{
+                this.waiting=false
+                console.log(err)
+            })
+            // var _this=this
+            // $.ajax({
+            //     type:'get',
+            //     url:'https://api.darlin.me/music/lyric/'+id,
+            //     dataType:'jsonp',
+            //     jsonp: 'jsonpCallback',
+            //     jsonpCallback:'callback',
+            //     success:function(res){
+            //         console.log(res)
+            //         var lyric=res.lyric
+            //         _this.lyric=_this.parseLyric(_this.decode(lyric))
+            //         _this.waiting=false
+            //     },
+            //     error:function(err){
+            //         _this.waiting=false
+            //         console.log(err)
+            //     }
+            // })
         },
         musicUpdate(){
-            this.currentTime=this.audio.currentTime
+            this.playProgress = `${(this.audio.currentTime / this.audio.duration * 100).toFixed(2)}%`
+        },
+        musicEnded(){
+            this.playProgress = 0 
         },
         decode(input) {
             var  _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
