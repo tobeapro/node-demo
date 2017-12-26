@@ -2,7 +2,8 @@ extends ../public/include/layout
 block content
     div(class="detail",:class="waiting?'loading':''",id="app")
         .container
-            audio(src=`http://ws.stream.qqmusic.qq.com/${music.id}.m4a?fromtag=46`,ref="audio",@canplay=`canPlay(${music.id})`,@timeupdate="musicUpdate")
+            audio(src=`http://ws.stream.qqmusic.qq.com/${music.id}.m4a?fromtag=46`,ref="audio",@canplay=`canPlay(${music.id})`,@timeupdate="musicUpdate",@ended="musicEnded")
+            .playProgress(:style="{width:playProgress}")
             .song-item.clearfix                   
                 img(class="fl",src=`${music.img}`,alt=`${music.name}`,style="width:100px;margin-right:20px")
                 .song-detail.fl
@@ -12,7 +13,7 @@ block content
                 ul
                     li(:class="currentTime>item.time?'playMark':''",v-for="(item,index) in lyric")  {{item.lrc}} 
 block script              
-    script(src="/public/detail.js")
+    script(src="/public/js/detail.js")
 
 
 

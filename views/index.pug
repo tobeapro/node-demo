@@ -27,8 +27,9 @@ block content
             h2 歌曲列表
             ul.music-list
                 each item in list
-                    li.music-li.clearfix                   
+                    li.music-li                   
                         p #{item.index} #{item.name}
-                        a(href=`/music/${item.id}`,role="button") 详情...
+                        a(href=`/music/${item.id}`,role="button") 详情
+                        a(href='javascript:void(0)',@click='delMusic') 删除
 block script
-    script(src="/public/index.js")
+    script(src="/public/js/index.js")
