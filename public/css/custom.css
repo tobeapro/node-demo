@@ -51,10 +51,23 @@
     display: flex;
     margin-bottom:10px;
 }
-.index .serch-none{
+.index .search-none{
     padding:12px 0;
+}
+.index .search-none-text{
     color:#f00707;
     font-size:14px;
+}
+.index .search-none-ul{
+    display:flex;
+}
+.index .search-none-ul li{
+    margin:6px 10px 6px 0;
+    padding:0 10px;
+    line-height:20px;
+    color:#666;
+    border:1px solid #666;
+    cursor:pointer;
 }
 .index .song-img img{
     display:block;
@@ -104,7 +117,7 @@
 }
 .index .music-li{
   line-height:26px;
-  font-size:14px;
+  font-size:12px;
   border:1px solid #aaa;
 }
 .index .music-li:not(:last-child){
@@ -114,8 +127,15 @@
     float:left;
     padding-left:12px;
     width:160px;
-    font-size:12px;
     font-weight:bold;
+}
+.index .music-li a{
+    padding:0 4px;
+    float:right;
+}
+.index .music-li a:hover{
+    text-decoration:underline;
+    color:#0877f2;
 }
 .detail .song-item{
     padding:12px 0;
@@ -131,6 +151,28 @@
 .detail .song-lyric ul{
     max-height:600px;
     overflow-y:auto;
+}
+.detail .song-lyric ul::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.detail .song-lyric ul::-webkit-scrollbar-button {
+    display:none;
+}
+
+.detail .song-lyric ul::-webkit-scrollbar-track {
+    display:none;
+}
+
+.detail .song-lyric ul::-webkit-scrollbar-track-piece {
+    background: #ddd;
+    border-radius: 10px;
+}
+
+.detail .song-lyric ul::-webkit-scrollbar-thumb {
+    background:rgba(0, 156, 247, 0.8);
+    border-radius: 10px;
 }
 .detail .song-lyric ul li{
     line-height:26px;

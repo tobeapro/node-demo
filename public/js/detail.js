@@ -5,6 +5,7 @@ new Vue({
         return {
             waiting:true,
             lyric:[],
+            currentTime:0,
             playStatus:false,
             playProgress:0
         }
@@ -25,47 +26,31 @@ new Vue({
             }
         },
         canPlay(id){
-            this.$http.jsonp('https://api.darlin.me/music/lyric/' + id,{jsonp:'jsonpCallback'})
-            .then(res=>{
-                var lyric=res.body.lyric
-                this.lyric=_this.parseLyric(_this.decode(lyric))
-                this.waiting=false
+            this.$http.jsonp('https://api.darlin.me/music/lyric/' + id)
+            .then(res=>{                        
+                var lyrics = this.decode(res.body.lyric)               
+                this.lyric = this.parseLyric(lyrics)
+                this.waiting = false  
             })
             .catch((err)=>{
                 this.waiting=false
                 console.log(err)
             })
-            // var _this=this
-            // $.ajax({
-            //     type:'get',
-            //     url:'https://api.darlin.me/music/lyric/'+id,
-            //     dataType:'jsonp',
-            //     jsonp: 'jsonpCallback',
-            //     jsonpCallback:'callback',
-            //     success:function(res){
-            //         console.log(res)
-            //         var lyric=res.lyric
-            //         _this.lyric=_this.parseLyric(_this.decode(lyric))
-            //         _this.waiting=false
-            //     },
-            //     error:function(err){
-            //         _this.waiting=false
-            //         console.log(err)
-            //     }
-            // })
         },
         musicUpdate(){
+            this.currentTime = this.audio.currentTime
             this.playProgress = `${(this.audio.currentTime / this.audio.duration * 100).toFixed(2)}%`
         },
         musicEnded(){
-            this.playProgress = 0 
+            this.playProgress = this.currentTime = 0 
+            this.playStatus=false
         },
         decode(input) {
-            var  _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-            var output = "";
-            var chr1, chr2, chr3;
-            var enc1, enc2, enc3, enc4;
-            var i = 0;
+            let _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+            let output = "";
+            let chr1, chr2, chr3;
+            let enc1, enc2, enc3, enc4;
+            let i = 0;
             input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
             while (i < input.length) {
                 enc1 = _keyStr.indexOf(input.charAt(i++));
@@ -87,9 +72,12 @@ new Vue({
             return output;
         },
         _utf8_decode(utftext) {
-            var string = "";
-            var i = 0;
-            var c = c1 = c2 = 0;
+            let string = "";
+            let i = 0;
+            let c1;
+            let c2;
+            let c3;
+            let c = c1 = c2 = 0;
             while ( i < utftext.length ) {
                 c = utftext.charCodeAt(i);
                 if (c < 128) {
