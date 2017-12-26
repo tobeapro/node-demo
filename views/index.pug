@@ -9,7 +9,8 @@ block content
                     v-input(type="text",v-model="searchValue",style="width:50%",@keyup.enter.native="searchMusic")
                     v-button(type="primary",icon="search",@click.key="searchMusic") 搜索
             h2 搜索列表
-            .serch-none(v-if="searchList.length===0") 当前无搜索结果
+            .search-none(v-if="searchList.length===0") 
+                p.search-none-text 当前无搜索结果
             ul.search-list(v-if="searchList.length>0")
                 li(class="search-li",v-for="(item,index) in searchList",v-key="index")
                     .song-img
@@ -26,10 +27,14 @@ block content
                             span 试听
             h2 歌曲列表
             ul.music-list
-                each item in list
-                    li.music-li                   
-                        p #{item.index} #{item.name}
-                        a(href=`/music/${item.id}`,role="button") 详情
-                        a(href='javascript:void(0)',@click='delMusic') 删除
+                each item,index in list
+                    li.music-li.clearfix                 
+                        p #{item.name}
+                        a(href='javascript:void(0)',@click=`delMusic(${item.id},$event,true)`) 删除
+                        a(href=`/music/${item.id}`) 详情                      
+                li(class="music-li clearfix",v-for="(item,index) in musicList")
+                    p {{item.name}}
+                    a(href='javascript:void(0)',@click='delMusic(item.id,index)') 删除
+                    a(:href="'/music/'+item.id") 详情
 block script
     script(src="/public/js/index.js")
