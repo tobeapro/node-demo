@@ -8,3 +8,11 @@ var musicSchema=new mongoose.Schema({
     lyric:String
 })
 module.exports=musicSchema
+musicSchema.statics={
+    getList (res){
+        this.find({}).exec(res)
+    },
+    findById(id,res){
+        this.findOne({id:id}).exec(res)
+    }
+}

@@ -42,20 +42,21 @@ app.get("/music/:id",(req,res)=>{
 })
 app.post("/music/saveMusic",(req,res)=>{
     var id=req.body.id
-    model.findById(id,(err,music)=>{
+    model.findById(id,(err,data)=>{
         if(err){
             res.send({status:500,text:'保存失败'}).end()
         }else{
-            if(music){
+            if(data){
                 res.send({status:204,text:'已存在'}).end()
             }else{
-                model.saveMusic(req.body,(err)=>{
-                    if(err){
-                        res.send({status:500,text:'保存失败'}).end()
-                    }else{            
-                        res.send({status:200,text:'保存成功'}).end()
-                    }
+                model(req.body)
+                .save()
+                .then(()=>{
+                    res.send({status:200,text:'保存成功'}).end()
                 })
+                .catch(()=>{
+                    res.send({status:500,text:'保存失败'}).end()
+                })                       
             }
         }
     })
