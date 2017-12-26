@@ -40,6 +40,16 @@ app.get("/music/:id",(req,res)=>{
         })
     })
 })
+// app.post("/music/searchMusic",(req,res)=>{
+//     let key =req.body.key
+//     jsonp('https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp',{'w':key,'n':30},(err,data)=>{
+//         if(err){
+//             res.send({status:500,text:'请求失败'}).end()
+//         }else{
+//             res.send({status:200,text:data}).end()
+//         }
+//     })
+// })
 app.post("/music/saveMusic",(req,res)=>{
     var id=req.body.id
     model.findById(id,(err,data)=>{
