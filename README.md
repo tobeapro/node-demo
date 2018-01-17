@@ -5,3 +5,7 @@
 + 音乐列表展示，搜索、增加、删除
 + 使用mongodb数据库
 + 音乐api还是之前vue spa的接口
+
+> 使用
++ 启动mongodb
++ 命令行node app.js运行入口文件
